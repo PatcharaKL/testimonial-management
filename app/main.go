@@ -41,6 +41,7 @@ func main() {
 		allowedOrigins := map[string]bool{
 			"https://patchara.dev":     true,
 			"http://192.168.1.14:3000": true,
+			"http://192.168.1.15:3000": true,
 		}
 		if allowedOrigins[origin] {
 			c.Response().Header.Set("Access-Control-Allow-Origin", origin)
