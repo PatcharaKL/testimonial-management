@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-test-docker:
+    environment: Optiplex
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,6 +31,12 @@ jobs:
           golangci-lint run
 
       - name: Build Docker image
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
         run: docker build -t testimonial-app .
 
       - name: Login to DockerHub
