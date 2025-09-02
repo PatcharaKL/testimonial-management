@@ -26,7 +26,6 @@ RUN apk add --no-cache ca-certificates
 # Copy built binary and migrations
 COPY --from=builder /app/testimonial-app .
 COPY migrations ./migrations
-COPY .env .
 
 EXPOSE 3000
 
