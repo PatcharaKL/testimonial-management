@@ -35,6 +35,17 @@ func main() {
 
 	app := fiber.New()
 
+	// Allow CORS for patchara.dev/testimonial
+	app.Use(func(c *fiber.Ctx) error {
+		c.Response().Header.Add("Access-Control-Allow-Origin", "https://patchara.dev")
+		c.Response().Header.Add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+		c.Response().Header.Add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+		if c.Method() == fiber.MethodOptions {
+			return c.SendStatus(fiber.StatusNoContent)
+		}
+		return c.Next()
+	})
+
 	repo := repository.NewTestimonialRepository(db)
 	usecase := usecases.NewTestimonialUsecase(repo)
 	handler.RegisterTestimonialRoutes(app, usecase)
