@@ -37,9 +37,16 @@ func main() {
 
 	// Allow CORS for patchara.dev/testimonial
 	app.Use(func(c *fiber.Ctx) error {
-		c.Response().Header.Add("Access-Control-Allow-Origin", "https://patchara.dev")
-		c.Response().Header.Add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
-		c.Response().Header.Add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+		origin := c.Get("Origin")
+		allowedOrigins := map[string]bool{
+			"https://patchara.dev":     true,
+			"http://192.168.1.14:3000": true,
+		}
+		if allowedOrigins[origin] {
+			c.Response().Header.Set("Access-Control-Allow-Origin", origin)
+		}
+		c.Response().Header.Set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+		c.Response().Header.Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
 		if c.Method() == fiber.MethodOptions {
 			return c.SendStatus(fiber.StatusNoContent)
 		}
