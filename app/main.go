@@ -11,15 +11,10 @@ import (
 	"testimonial-management/pkg"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables from .env file
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	// Environment variables are loaded from the container environment
 
 	dbConfig := pkg.DBConfig{
 		Host:     os.Getenv("DB_HOST"),
